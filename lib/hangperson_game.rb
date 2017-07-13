@@ -19,9 +19,13 @@ attr_accessor :word ,:guesses ,:wrong_guesses ,:valid
     @valid = ''
   end
   def guess(guess_char)
+    if !check_guess(guess_char)
+      raise ArgumentError.new()
+    end
     guess_char = guess_char.downcase
+    
     @valid = match_char_in_guesses(guess_char)
-  if @valid  
+  if @valid 
     return false
   end
   else
@@ -41,7 +45,13 @@ attr_accessor :word ,:guesses ,:wrong_guesses ,:valid
   else 
     return false
   end
-    
+  def check_guess (guess_char_in)
+    if guess_char_in =~ /[a-zA-Z]/
+      return true
+    else
+      return false
+    end
+  end
   def self.get_random_word
     require 'uri'
     require 'net/http'
